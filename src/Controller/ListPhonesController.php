@@ -46,6 +46,12 @@ class ListPhonesController
 
        $phones = $this->serializer->serialize($phones, 'json');
 
-       return new Response($phones);
+       $response = new Response($phones);
+
+       $response->setPublic();
+       $response->setEtag(md5($response->getContent()));
+       $response->isNotModified($request);
+
+       return $response;
     }
 }
