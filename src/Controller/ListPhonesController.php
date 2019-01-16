@@ -39,6 +39,7 @@ class ListPhonesController
      * @param Request $request
      *
      * @return Response
+     * @throws \Exception
      */
     public function list(Request $request)
     {
@@ -49,7 +50,7 @@ class ListPhonesController
        $response = new Response($phones);
 
        $response->setPublic();
-       $response->setEtag(md5($response->getContent()));
+       $response->setLastModified(new \DateTime('2017-05-28 00:00:00'));
        $response->isNotModified($request);
 
        return $response;
