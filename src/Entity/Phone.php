@@ -28,6 +28,11 @@ class Phone
     private $brand;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -65,5 +70,21 @@ class Phone
     public function setBrand($brand): void
     {
         $this->brand = $brand;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param mixed $updatedAt
+     */
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

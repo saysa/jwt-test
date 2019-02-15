@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Phone;
 use App\Loader\PhonesLoader;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,10 +51,22 @@ class ListPhonesController
 
        $response = new Response($phones);
 
-       $response->setPublic();
-       $response->setLastModified(new \DateTime('2017-05-28 00:00:00'));
-       $response->isNotModified($request);
-
        return $response;
+    }
+
+    /**
+     * @Route(path="/phone/{id}", name="phone", methods={"GET"})
+     * @Cache(lastModified="phone.getUpdatedAt()", smaxage="15", public=true)
+     * @param Phone $phone
+     *
+     * @return Response
+     */
+    public function read(Phone $phone)
+    {
+        $phone = $this->serializer->serialize($phone, 'json');
+        $response = new Response($phone);
+        $response->setPublic();
+
+        return $response;
     }
 }
